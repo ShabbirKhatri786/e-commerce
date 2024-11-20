@@ -12,7 +12,8 @@ export const getCartProducts = () => {
   
   
 export const rempveFromCart = (productId) => {
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-cart = cart.filter(id => id !== productId);
-localStorage.setItem('cart', JSON.stringify(cart));
+let cart = JSON.parse(localStorage.getItem('cart__data')) || [];
+const cartFilter = cart.filter(id => id !== productId);
+console.log(cartFilter)
+localStorage.setItem('cart__data', JSON.stringify(cartFilter));
 };

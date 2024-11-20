@@ -7,23 +7,34 @@ import { useNavigate } from "react-router-dom";
 
 const App = ({ open, setOpen }) => {
   const [cartData, setCartData] = useState(getCartProducts() ?? []);
+  console.log(cartData)
+  const [filteredData, setFilteredData] = useState(null)
   const productData = cardData.filter((v) => cartData.includes(v.id));
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setCartData(getCartProducts() ?? [])
+  setFilteredData(productData)
+
+  }, [open]);
+  
   const onClose = () => {
     setOpen(false);
   };
 
   const handleRemoveFromCart = (productId) => {
-    const updatedCartData = cardData.filter(id => id !== productId);
-    setCartData(updatedCartData);
+    console.log('productId', productId)
+    const updatedCartData = filteredData.filter(id => id?.id !== productId);
+    console.log("update", updatedCartData)
+    setFilteredData(updatedCartData)
+    console.log(productData)
     rempveFromCart(productId);
     message.success('Product Remove From Cart')
   };
 
   const CartFooter = () => {
 
-    const productsWithAmount = productData.map(v => {
+    const productsWithAmount = filteredData?.map(v => {
       return {
         ...v,
         amount: Number(v.price) * 1
@@ -35,9 +46,6 @@ const App = ({ open, setOpen }) => {
 
  
 
-    const handleCheckoutClick = () => {
-      navigate("/checkout");
-    };
 
     return (
       <div>
@@ -46,7 +54,7 @@ const App = ({ open, setOpen }) => {
           <h4>Rs.${total}</h4>
         </div>
         <div className="mt-3">
-          <Button type="primary" className="w-100" onClick={handleCheckoutClick}>
+          <Button type="primary" className="w-100" onClick={() => navigate("/checkout")} >
             Checkout
           </Button>
         </div>
@@ -54,10 +62,6 @@ const App = ({ open, setOpen }) => {
     );
   };
 
-  useEffect(() => {
-    setCartData(getCartProducts() ?? [])
-  }, open);
-  
   return (
     <>
       <Drawer
@@ -68,7 +72,7 @@ const App = ({ open, setOpen }) => {
         open={open}
         footer={<CartFooter />}
       >
-        {productData.map((v, i) => {
+        {filteredData?.map((v, i) => {
           return (
             <div key={i} className="cart__card d-flex border p-3 rounded mb-2">
               <div className="col-4">

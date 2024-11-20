@@ -11,12 +11,12 @@ import LoginSignUp from "../../component/loginsignup/loginSignUp";
 const NavBar = () => {
     const [menu, setManu] = useState("shop");
     const [open, setOpen] = useState(false);
-    const [productsInCart, setProcutdsInCart] = useState([])
+    const [productsInCart, setProcutdsInCart] = useState(getCartProducts() ?? [])
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        const products = getCartProducts() ?? [];
-    setProcutdsInCart(products);
+    setProcutdsInCart(getCartProducts() ?? []);
+    console.log("okokok")
     }, []);
 
 
