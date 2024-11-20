@@ -5,6 +5,7 @@ import { kids } from "../pages/kids/kids";
 import { mens } from "../pages/men/mens";
 import { women } from "../pages/women/women";
 import ProductDetails from "../pages/productDetails";
+import { Checkout } from "../layout/checkout/checkout"; 
 
 export const routeList = [
   {
@@ -34,6 +35,10 @@ export const routeList = [
   {
     path:"/product/:id",
     Element: ProductDetails,
-  }
+  },
+  {
+    path: "/checkout",
+    Element: Checkout, 
+  },
 
 ];

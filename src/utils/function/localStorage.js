@@ -11,3 +11,8 @@ export const getCartProducts = () => {
     localStorage.setItem("cart__data", JSON.stringify(products));
   
   
+export const rempveFromCart = (productId) => {
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+cart = cart.filter(id => id !== productId);
+localStorage.setItem('cart', JSON.stringify(cart));
+};
