@@ -1,0 +1,84 @@
+ .header{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    background-color: aquamarine;
+}
+
+/* form */
+/* Container for the main content */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  /* Checkout form styles */
+  .checkout-form {
+    flex: 1; 
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .checkout-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Group inputs into row for first and last name */
+  .name-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+
+  
+  .input-group input,
+  .input-group textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Style for textarea specifically */
+  .input-group textarea {
+    resize: vertical;
+  }
+  
+  /* Submit button styles */
+  .checkout-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .checkout-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Divider line between the form and product container */
+  .divider {
+    width: 1px;
+    background-color: #ccc;
+    height: 300px; /* Adjust height based on content */
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Product container (you can add product details here) */
+  .product-container {
+    flex: 1; /* Takes remaining space */
+    padding: 20px;
+    background-color: #f9f9f9;
+    /* Add product content styling */
+  }
+  

@@ -44,7 +44,10 @@ const App = ({ open, setOpen }) => {
       return amount + Number(current.amount)
     }, 0);
 
- 
+ const handleCheckout = () => {
+  localStorage.setItem("cartItems", JSON.stringify(filteredData));
+  navigate("/checkout");
+ }
 
 
     return (
@@ -54,7 +57,7 @@ const App = ({ open, setOpen }) => {
           <h4>Rs.${total}</h4>
         </div>
         <div className="mt-3">
-          <Button type="primary" className="w-100" onClick={() => navigate("/checkout")} >
+          <Button type="primary" className="w-100" onClick={() => navigate("/checkout")} onClick={handleCheckout} >
             Checkout
           </Button>
         </div>
