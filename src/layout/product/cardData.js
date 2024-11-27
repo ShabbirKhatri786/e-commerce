@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { cardData } from "../card/card"
 import TextBtn from "../../component/buttons/txtBtn";
@@ -7,31 +7,65 @@ import { message } from "antd";
 import { IoCart, IoCartOutline } from "react-icons/io5";
 import { addProductToCart, getCartProducts } from "../../utils/function/localStorage";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCard, removeFromCart, setCartCount } from "../../reducer/reudcer";
+
 
 const ProductsLayout = () => {
-
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
-  const [productsInCart, setProcutdsInCart] = useState(getCartProducts() ?? [])
+  const [productsInCart, setProcutdsInCart] = useState(getCartProducts() ?? []);
+
+  const cartCount = useSelector((state) => state.counter.count);
+  const dispatch = useDispatch();
+
+  const apiGet = () => {
+    fetch("https://fakestoreapi.com/products")
+      .then(res => res.json())
+      .then(json => {
+        if (json && json.length > 0) {
+          setData(json);
+        } else {
+          console.error("Failed to fetch products:", json);
+        }
+      })
+      .catch(e => {
+        console.error("Error data", e);
+      });
+  };
+
 
   const addToCard = (data) => {
+
+
     let getCartData = getCartProducts();
+
+
     if (getCartData.find(v => v === data.id)) {
       const filteredData = getCartData.filter(v => Number(v) !== Number(data.id))
       addProductToCart(filteredData);
       setProcutdsInCart(filteredData)
       message.success("Product removed from Cart")
+      dispatch(removeFromCart());
     } else {
       getCartData.push(data.id)
       addProductToCart(getCartData)
       setProcutdsInCart(getCartData)
       message.success("Product Added to Cart")
+      dispatch(addToCard());
     }
   }
 
   const goToprocut = (data) => {
     navigate(`/product/${data.id}`)
   }
+
+  useEffect(() => {
+
+    apiGet()
+
+  }, [])
 
   return (
     <div className="products__layout__main">
@@ -41,7 +75,8 @@ const ProductsLayout = () => {
           <p>Claritas est etiam processus dynamicus, qui sequitur.</p>
         </div>
         <div className="cards__section row">
-          {cardData.map((v, i) => {
+          {data.map((v, i) => {
+            
             const isAdded = productsInCart?.includes(v.id)
             console.log("Is added", isAdded)
             return (

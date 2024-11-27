@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { addProductToCart, getCartProducts } from "../../utils/function/localStorage";
 import CartDrawer from "../../layout/cartDrawer/index";
 import LoginSignUp from "../../component/loginsignup/loginSignUp";
+import { useSelector } from "react-redux";
 
 
 const NavBar = () => {
@@ -18,6 +19,8 @@ const NavBar = () => {
     setProcutdsInCart(getCartProducts() ?? []);
     console.log("okokok")
     }, []);
+
+    const cartCount = useSelector((state) => state.counter.count)
 
 
     const openDrawer = () => setOpen(true);
@@ -52,8 +55,8 @@ const closeLoginModal= () =>{
             <button onClick={openLoginModal}>Login</button> 
                <div onClick={openDrawer} className="cart-icon">
                     <img src={cart_icon} alt="Cart" />
-                    {productsInCart.length > 0 && (
-                        <div className="nav-cart-count">{productsInCart.length}</div>
+                    {cartCount.length > 0 && (
+                        <div className="nav-cart-count">{cartCount.length}</div>
                     )}
                 </div>
 
