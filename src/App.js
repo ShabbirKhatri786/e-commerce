@@ -3,7 +3,7 @@ import { AppRouter } from "./config/appRouter";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import './App.css'
-import { store } from "./reducer/store";
+import store from "./reducer/store";
 import { Provider } from "react-redux";
 
 

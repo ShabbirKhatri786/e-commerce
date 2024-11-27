@@ -1,1 +1,1 @@
-const apiData = "https://fakestoreapi.com/products/1";
+export const ApiUrl = 'https://fakestoreapi.com/products'

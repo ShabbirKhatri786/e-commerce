@@ -8,18 +8,18 @@ export const counter = createSlice({
         count: 0
     },
     reducers: {
-        addToCard: (state) => {
-            state.count += 1
-        },
-        removeFromCart: (state) => {
-            state.count -= 1
-        },
-        setCartCount: (state, action) => {
-            state.count = action.payload
+        addToCartCount:(state,actions)=>{
+            console.log(actions.payload)
+                if(actions.payload === "+"){
+                    state.count += 1
+                }else{
+                    state.count -= 1
+                }
+                return state  
         }
     }
 })
 
-export const {addToCard, removeFromCart, setCartCount} = counter.actions;
+export const {addToCartCount} = counter.actions;
 
 export default counter.reducer;

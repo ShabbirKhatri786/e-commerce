@@ -8,36 +8,28 @@ import { IoCart, IoCartOutline } from "react-icons/io5";
 import { addProductToCart, getCartProducts } from "../../utils/function/localStorage";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCard, removeFromCart, setCartCount } from "../../reducer/reudcer";
+import { addToCartCount } from "../../reducer/reudcer";
+import { ApiUrl } from "../../api/configue";
 
 
 const ProductsLayout = () => {
-  const [data, setData] = useState([]);
+  const [product, setProduct] = useState([]);
   const navigate = useNavigate();
 
   const [productsInCart, setProcutdsInCart] = useState(getCartProducts() ?? []);
 
   const cartCount = useSelector((state) => state.counter.count);
+  console.log('cartCount==>>', cartCount)
   const dispatch = useDispatch();
 
-  const apiGet = () => {
-    fetch("https://fakestoreapi.com/products")
-      .then(res => res.json())
-      .then(json => {
-        if (json && json.length > 0) {
-          setData(json);
-        } else {
-          console.error("Failed to fetch products:", json);
-        }
-      })
-      .catch(e => {
-        console.error("Error data", e);
-      });
-  };
+  
 
 
   const addToCard = (data) => {
-
+    if (!data || !data.id) {
+      console.error('Item ya item id undefined hai');
+      return;
+    }
 
     let getCartData = getCartProducts();
 
@@ -47,13 +39,13 @@ const ProductsLayout = () => {
       addProductToCart(filteredData);
       setProcutdsInCart(filteredData)
       message.success("Product removed from Cart")
-      dispatch(removeFromCart());
+      dispatch(addToCartCount("-"));
     } else {
       getCartData.push(data.id)
       addProductToCart(getCartData)
       setProcutdsInCart(getCartData)
       message.success("Product Added to Cart")
-      dispatch(addToCard());
+      dispatch(addToCartCount("+"));
     }
   }
 
@@ -62,11 +54,18 @@ const ProductsLayout = () => {
   }
 
   useEffect(() => {
+    fetch(ApiUrl, {
+      method: 'GET'
+    }).then((res) => {
+      res.json().then((res) => {
+        setProduct(res)
 
-    apiGet()
-
+      })
+    }).catch((e) => {
+      console.log('error', e)
+    })
   }, [])
-
+  
   return (
     <div className="products__layout__main">
       <div className="container">
@@ -75,8 +74,8 @@ const ProductsLayout = () => {
           <p>Claritas est etiam processus dynamicus, qui sequitur.</p>
         </div>
         <div className="cards__section row">
-          {data.map((v, i) => {
-            
+          {product.map((v, i) => {
+
             const isAdded = productsInCart?.includes(v.id)
             console.log("Is added", isAdded)
             return (

@@ -21,7 +21,8 @@ const NavBar = () => {
     }, []);
 
     const cartCount = useSelector((state) => state.counter.count)
-
+    
+    console.log('cartCoun==>>', cartCount)
 
     const openDrawer = () => setOpen(true);
 
@@ -55,8 +56,8 @@ const closeLoginModal= () =>{
             <button onClick={openLoginModal}>Login</button> 
                <div onClick={openDrawer} className="cart-icon">
                     <img src={cart_icon} alt="Cart" />
-                    {cartCount.length > 0 && (
-                        <div className="nav-cart-count">{cartCount.length}</div>
+                    {cartCount > 0 && (
+                        <div className="nav-cart-count">{cartCount}</div>
                     )}
                 </div>
 
