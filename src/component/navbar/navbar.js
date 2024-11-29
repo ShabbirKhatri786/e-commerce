@@ -8,6 +8,11 @@ import CartDrawer from "../../layout/cartDrawer/index";
 import LoginSignUp from "../../component/loginsignup/loginSignUp";
 import { useSelector } from "react-redux";
 
+// Bootstrap
+import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
+import { GiHamburgerMenu } from 'react-icons/gi';
+
+
 
 const NavBar = () => {
     const [menu, setManu] = useState("shop");
