@@ -5,15 +5,19 @@ import { createSlice } from "@reduxjs/toolkit";
 export const counter = createSlice({
     name: 'counter',
     initialState: {
-        count: 0
+        count: 0,
+        totalAmount: 0,
     },
     reducers: {
         addToCartCount:(state,actions)=>{
             console.log(actions.payload)
-                if(actions.payload === "+"){
+            const { product, actionType } = actions.payload;
+                if(actionType  === "add"){
                     state.count += 1
-                }else{
+                    state.totalAmount += product.price;
+                }else if (actionType === "remove"){
                     state.count -= 1
+                    state.totalAmount -= product.price
                 }
                 return state  
         }

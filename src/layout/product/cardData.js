@@ -21,7 +21,8 @@ const ProductsLayout = () => {
   const cartCount = useSelector((state) => state.counter.count);
   console.log('cartCount==>>', cartCount)
   const dispatch = useDispatch();
-
+const totalAmount = useSelector((state)=> state.counter.totalAmount);
+const searchQuery = useSelector((state) => state.search.query);
   
 
 
@@ -34,18 +35,18 @@ const ProductsLayout = () => {
     let getCartData = getCartProducts();
 
 
-    if (getCartData.find(v => v === data.id)) {
-      const filteredData = getCartData.filter(v => Number(v) !== Number(data.id))
+    if (getCartData.includes(data.id)) {
+      const filteredData = getCartData.filter((id) => id !== data.id)
       addProductToCart(filteredData);
       setProcutdsInCart(filteredData)
       message.success("Product removed from Cart")
-      dispatch(addToCartCount("-"));
+      dispatch(addToCartCount({ product: data, actionType: "remove" }));
     } else {
       getCartData.push(data.id)
       addProductToCart(getCartData)
       setProcutdsInCart(getCartData)
       message.success("Product Added to Cart")
-      dispatch(addToCartCount("+"));
+      dispatch(addToCartCount({ product: data, actionType: "add" }));
     }
   }
 
@@ -54,17 +55,15 @@ const ProductsLayout = () => {
   }
 
   useEffect(() => {
-    fetch(ApiUrl, {
-      method: 'GET'
-    }).then((res) => {
-      res.json().then((res) => {
-        setProduct(res)
-
+    fetch(ApiUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
       })
-    }).catch((e) => {
-      console.log('error', e)
-    })
-  }, [])
+      .catch((err) => {
+        console.log('Error fetching products:', err);
+      });
+  }, []);
   
   return (
     <div className="products__layout__main">

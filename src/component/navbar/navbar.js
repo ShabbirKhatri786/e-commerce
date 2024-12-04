@@ -7,6 +7,7 @@ import { addProductToCart, getCartProducts } from "../../utils/function/localSto
 import CartDrawer from "../../layout/cartDrawer/index";
 import LoginSignUp from "../../component/loginsignup/loginSignUp";
 import { useSelector } from "react-redux";
+// import Search from "../search/search";
 
 // Bootstrap
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
@@ -26,6 +27,7 @@ const NavBar = () => {
     }, []);
 
     const cartCount = useSelector((state) => state.counter.count)
+    const totalAmount = useSelector((state) => state.counter.totalAmount);
     
     console.log('cartCoun==>>', cartCount)
 
@@ -57,13 +59,15 @@ const closeLoginModal= () =>{
                 <li onClick={() => { setManu("women") }}><Link style={{ textDecoration: 'none' }} to="/women">Womens</Link> {menu === "women" ? <hr /> : <></>}</li>
                 <li onClick={() => { setManu("kids") }}><Link style={{ textDecoration: 'none' }} to="/kids">Kids</Link> {menu === "kids" ? <hr /> : <></>}</li>
             </ul>
+            {/* <Search /> */}
             <div className="nav-login-cart">
             <button onClick={openLoginModal}>Login</button> 
                <div onClick={openDrawer} className="cart-icon">
                     <img src={cart_icon} alt="Cart" />
                     {cartCount > 0 && (
-                        <div className="nav-cart-count">{cartCount}</div>
+                        <div className="nav-cart-count"> {cartCount}</div>
                     )}
+                    <div className="totalAmount"> items | ${totalAmount.toFixed(2)} </div>
                 </div>
 
                 <CartDrawer open={open} setOpen={setOpen} />

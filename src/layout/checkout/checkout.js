@@ -17,7 +17,7 @@ export const Checkout = () => {
     };
 
     return (
-        <div>
+        <div className="checkout-page">
             <header className='header'>
                 <div className="nav-logo">
                     <img src={logo} alt="" />
@@ -25,53 +25,54 @@ export const Checkout = () => {
                 </div>
             </header>
 
-            <div className='main-container'>
+            <div className="checkout-container">
                 {/* Form */}
                 <div className="checkout-form">
                     <h2>Customer Details</h2>
                     <form>
-                        <div className="name-container">
-                            <div className="input-group">
-                                <label>First Name:</label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    required
-                                />
-                            </div>
-                            <div className="input-group">
-                                <label>Last Name:</label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    required
-                                />
-                            </div>
+
+                        <div className="input-group">
+                            <label>First Name:</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                required
+                            />
                         </div>
 
-                        <div className="name-container">
-                            <div className="input-group">
-                                <label>Email Address:</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    required
-                                />
-                            </div>
-
-                            <div className="input-group">
-                                <label>Phone Number:</label>
-                                <input
-                                    type="text"
-                                    id="phone"
-                                    name="phone"
-                                    required
-                                />
-                            </div>
+                        <div className="input-group">
+                            <label>Last Name:</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                required
+                            />
                         </div>
+
+
+
+                        <div className="input-group">
+                            <label>Email Address:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label>Phone Number:</label>
+                            <input
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                required
+                            />
+                        </div>
+
 
                         <div className="input-group">
                             <label>Address:</label>
@@ -102,7 +103,7 @@ export const Checkout = () => {
                             />
                         </div>
 
-                        <button type="submit">Submit</button>
+                        <button type="submit" >Submit</button>
                     </form>
                 </div>
 
@@ -110,20 +111,22 @@ export const Checkout = () => {
                 <div className="divider"></div>
 
                 {/* Product Container (you can add content here) */}
-                <div className="product-container">
+                <div className="cart-items">
                     <h3>Products in Your Cart</h3>
                     {cartItems && cartItems.length > 0 ? (
-                        <div>
+                        <div className='product-list'>
                             {cartItems.map((item) => (
-                                <div key={item.id} className="product-item">
-                                    <img src={item.image} alt={item.title} />
-                                    <div>
+                                <div key={item.id} className="product-card">
+                                    <img src={item.image} alt={item.title} className="product-image" />
+                                    <div className="product-details">
                                         <h4>{item.title}</h4>
                                         <p>Price: Rs.{item.price}</p>
                                     </div>
                                 </div>
                             ))}
-                            <h4>Total: Rs.{total()}</h4>
+                            <div className="total">
+                                <h4>Total: Rs.{total()}</h4>
+                            </div>
                         </div>
                     ) : (
                         <p>Your cart is empty.</p>
