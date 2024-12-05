@@ -67,7 +67,7 @@ const closeLoginModal= () =>{
                     {cartCount > 0 && (
                         <div className="nav-cart-count"> {cartCount}</div>
                     )}
-                    <div className="totalAmount"> items | ${totalAmount.toFixed(2)} </div>
+                    <div className="totalAmount"> items | ${isNaN(totalAmount) ? 0 : totalAmount.toFixed(2)} </div>
                 </div>
 
                 <CartDrawer open={open} setOpen={setOpen} />

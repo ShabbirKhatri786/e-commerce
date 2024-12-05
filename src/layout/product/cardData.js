@@ -8,22 +8,23 @@ import { IoCart, IoCartOutline } from "react-icons/io5";
 import { addProductToCart, getCartProducts } from "../../utils/function/localStorage";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCartCount } from "../../reducer/reudcer";
+import { addToCartCount, totalPayment } from "../../reducer/reudcer";
 import { ApiUrl } from "../../api/configue";
+import { GetTotal } from "../../utils/function/common";
 
 
 const ProductsLayout = () => {
   const [product, setProduct] = useState([]);
   const navigate = useNavigate();
-
+  const cartProd = getCartProducts()
   const [productsInCart, setProcutdsInCart] = useState(getCartProducts() ?? []);
 
   const cartCount = useSelector((state) => state.counter.count);
   console.log('cartCount==>>', cartCount)
   const dispatch = useDispatch();
-const totalAmount = useSelector((state)=> state.counter.totalAmount);
-const searchQuery = useSelector((state) => state.search.query);
-  
+  const totalAmount = useSelector((state) => state.counter.totalAmount);
+  const searchQuery = useSelector((state) => state.search.query);
+
 
 
   const addToCard = (data) => {
@@ -59,12 +60,16 @@ const searchQuery = useSelector((state) => state.search.query);
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
+        // const card = getCartProducts()
+        // const filterData = data.filter((v) => card.includes(v.id))
+        // const totalPrice = filterData.reduce((total, item) => total + (item.price), 0);
+        dispatch(totalPayment(GetTotal(data)))
       })
       .catch((err) => {
         console.log('Error fetching products:', err);
       });
   }, []);
-  
+
   return (
     <div className="products__layout__main">
       <div className="container">
@@ -75,8 +80,7 @@ const searchQuery = useSelector((state) => state.search.query);
         <div className="cards__section row">
           {product.map((v, i) => {
 
-            const isAdded = productsInCart?.includes(v.id)
-            console.log("Is added", isAdded)
+            const isAdded = cartProd?.includes(v.id)
             return (
               <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={v.id}>
                 <div className="card__main">

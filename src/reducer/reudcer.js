@@ -17,13 +17,16 @@ export const counter = createSlice({
                     state.totalAmount += product.price;
                 }else if (actionType === "remove"){
                     state.count -= 1
-                    state.totalAmount -= product.price
+                    state.totalAmount -= product?.price
                 }
                 return state  
+        },
+        totalPayment: (state, actions) => {
+            state.totalAmount = actions.payload
         }
     }
 })
 
-export const {addToCartCount} = counter.actions;
+export const {addToCartCount, totalPayment} = counter.actions;
 
 export default counter.reducer;

@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { ApiUrl } from "../../api/configue";
 // import Item from "antd/es/list/Item";
 import "./style.css";
+import { useDispatch } from "react-redux";
+import { addToCartCount, totalPayment} from "../../reducer/reudcer";
+import { GetTotal } from "../../utils/function/common";
+
 
 const App = ({ open, setOpen }) => {
   const [cartData, setCartData] = useState(getCartProducts() ?? []);
@@ -13,35 +17,47 @@ const App = ({ open, setOpen }) => {
   const [filteredData, setFilteredData] = useState([])
   const productData = cardData.filter((v) => cartData.includes(v.id));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [data, setData] = useState(null)
 
   useEffect(() => {
     fetch(ApiUrl)
-    .then((res)=> res.json())
-    .then((data) =>{
+      .then((res) => res.json())
+      .then((data) => {
 
-      const productData = data.filter((product) => cartData.includes(product.id));
-      setCartData(getCartProducts() ?? [])
-      setFilteredData(productData)
-    })
-  .catch((err)=>{
-    console.log("error fetching product", err)
-  });
+        const productData = data.filter((product) => cartData.includes(product.id));
+        setCartData(getCartProducts() ?? [])
+        setFilteredData(productData)
+      })
+      .catch((err) => {
+        console.log("error fetching product", err)
+      });
 
-  }, [open, cartData]);
-  
+  }, [open,]);
+
   const onClose = () => {
     setOpen(false);
   };
 
   const handleRemoveFromCart = (productId) => {
     console.log('productId', productId)
-    const updatedCartData = filteredData.filter(Item => Item.id !== productId);
+    const updatedCartData = filteredData.filter(Item => { 
+      setData(Item)
+     return Item.id !== productId
+
+     });
+    console.log(filteredData)
     console.log("update", updatedCartData)
     setFilteredData(updatedCartData)
     console.log(productData)
     rempveFromCart(productId);
+    console.log('data==>>', data)
+    dispatch(addToCartCount({actionType:"remove",product:data}))
+    dispatch(totalPayment(GetTotal(filteredData)))
+
     message.success('Product Remove From Cart')
   };
+  console.log(data,"<<==data")
 
   const CartFooter = () => {
 
@@ -55,10 +71,10 @@ const App = ({ open, setOpen }) => {
       return amount + Number(current.amount)
     }, 0);
 
- const handleCheckout = () => {
-  localStorage.setItem("cartItems", JSON.stringify(filteredData));
-  navigate("/checkout");
- }
+    const handleCheckout = () => {
+      localStorage.setItem("cartItems", JSON.stringify(filteredData));
+      navigate("/checkout");
+    }
 
 
     return (
@@ -68,7 +84,7 @@ const App = ({ open, setOpen }) => {
           <h4>Rs.${total}</h4>
         </div>
         <div className="mt-3">
-          <Button type="primary" className="w-100 mt-3 checkout-btn" onClick={() => navigate("/checkout")} onClick={handleCheckout} >
+          <Button type="primary" className="w-100 mt-3 checkout-btn" onClick={() => {navigate("/checkout");handleCheckout()}}  >
             Checkout
           </Button>
         </div>
@@ -85,7 +101,7 @@ const App = ({ open, setOpen }) => {
         onClose={onClose}
         open={open}
         footer={<CartFooter />}
-         className="cart-drawer"
+        className="cart-drawer"
       >
         {filteredData?.map((v, i) => {
           return (
