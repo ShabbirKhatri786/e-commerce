@@ -112,7 +112,7 @@ const App = ({ open, setOpen }) => {
               <div className="cart-card-details">
                 <h3>{v.title}</h3>
                 <h2>Rs.{v.price}</h2>
-                <div>Amount: Rs.${Number(v.price) * 1}</div>
+                <div>Amount: ${Number(v.price) * 1}</div>
                 <Button type="button" onClick={() => handleRemoveFromCart(v.id)} style={{ color: "red" }}>Remove</Button>
               </div>
             </div>

@@ -120,12 +120,12 @@ export const Checkout = () => {
                                     <img src={item.image} alt={item.title} className="product-image" />
                                     <div className="product-details">
                                         <h4>{item.title}</h4>
-                                        <p>Price: Rs.{item.price}</p>
+                                        <p>Price: ${item.price}</p>
                                     </div>
                                 </div>
                             ))}
                             <div className="total">
-                                <h4>Total: Rs.{total()}</h4>
+                                <h4>Total: ${total()}</h4>
                             </div>
                         </div>
                     ) : (
